@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
+
 const userSchema = new Schema({
-  name: {type: String, require: true},
-  email: {type: String, require: true},
+  name: {type: String, required: false},
+  email: {type: String, required: true},
+  password: {type: String, required: true},
   cart: {
     items: [{
-      productId: {type: Schema.Types.ObjectId, require: true, ref: 'Product'},
-      quantity: {type: Number, require: true}
+      productId: {type: Schema.Types.ObjectId, ref: 'Product', required: true},
+      quantity: {type: Number, required: true}
     }]
   }
 });
@@ -39,8 +42,7 @@ userSchema.methods.removeFromCart = function(productId) {
 
 userSchema.methods.clearCart = function() {
   this.cart = {items: []};
-  this.save();
+  return this.save();
 };
-
 
 module.exports = mongoose.model('User', userSchema);
