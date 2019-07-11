@@ -5,12 +5,9 @@ exports.getProducts = (req, res, next) => {
   Product.find()
       .then(products => {
         console.log(products);
-        res.render('shop/product-list', {
-          prods: products,
-          pageTitle: 'All Products',
-          path: '/products',
-          isAuthenticated: req.session.isLoggedIn
-        });
+        res.render(
+            'shop/product-list',
+            {prods: products, pageTitle: 'All Products', path: '/products'});
       })
       .catch(err => {
         console.log(err);
@@ -21,12 +18,9 @@ exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
       .then(product => {
-        res.render('shop/product-detail', {
-          product: product,
-          pageTitle: product.title,
-          path: '/products',
-          isAuthenticated: req.session.isLoggedIn
-        });
+        res.render(
+            'shop/product-detail',
+            {product: product, pageTitle: product.title, path: '/products'});
       })
       .catch(err => console.log(err));
 };
@@ -47,12 +41,9 @@ exports.getCart = (req, res, next) => {
       .execPopulate()
       .then(user => {
         const products = user.cart.items;
-        res.render('shop/cart', {
-          path: '/cart',
-          pageTitle: 'Your Cart',
-          products: products,
-          isAuthenticated: req.session.isLoggedIn
-        });
+        res.render(
+            'shop/cart',
+            {path: '/cart', pageTitle: 'Your Cart', products: products});
       })
       .catch(err => console.log(err));
 };
@@ -103,12 +94,9 @@ exports.postOrder = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
   Order.find({'user.userId': req.user._id})
       .then(orders => {
-        res.render('shop/orders', {
-          path: '/orders',
-          pageTitle: 'Your Orders',
-          orders: orders,
-          isAuthenticated: req.session.isLoggedIn
-        });
+        res.render(
+            'shop/orders',
+            {path: '/orders', pageTitle: 'Your Orders', orders: orders});
       })
       .catch(err => console.log(err));
 };
